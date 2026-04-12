@@ -95,46 +95,46 @@ def render_result(states_list, history):
     original_count = len(states_list)
     merged = original_count - minimal_count
 
-    html = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;">'
+    html = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:1.25rem;">'
     for label, val in [("Steps shown", len(history)), ("Original states", original_count), ("Minimal states", minimal_count)]:
         html += f"""
-        <div style="background:#f5f5f3;border-radius:8px;padding:12px 14px;">
-          <div style="font-size:12px;color:#888;margin-bottom:3px;">{label}</div>
-          <div style="font-size:22px;font-weight:500;">{val}</div>
+        <div style="background:#f3eaee;border:1px solid rgba(122,82,98,0.1);border-radius:10px;padding:14px 16px;">
+          <div style="font-size:13px;color:#6e5c67;margin-bottom:4px;">{label}</div>
+          <div style="font-size:24px;font-weight:600;color:#2a2328;">{val}</div>
         </div>"""
     html += "</div>"
 
     html += """
-    <div style="background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem;">
-      <p style="font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1rem;">Partition refinement</p>
+    <div style="background:#fff;border:1px solid rgba(122,82,98,0.14);border-radius:14px;padding:1.4rem 1.65rem;margin-bottom:1.25rem;box-shadow:0 1px 2px rgba(90,60,75,0.04);">
+      <p style="font-size:12px;font-weight:600;color:#6e5c67;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1.1rem;">Partition refinement</p>
     """
 
     for i, step in enumerate(history):
         is_last = (i == len(history) - 1)
         groups = "   ".join(["{" + ", ".join(g) + "}" for g in step])
-        border = "" if is_last else "border-bottom:0.5px solid rgba(0,0,0,0.08);"
+        border = "" if is_last else "border-bottom:1px solid rgba(122,82,98,0.1);"
 
         if is_last:
             stable_badge = (
-                f'<span style="display:inline-block;margin-left:10px;font-size:11px;'
-                f'padding:2px 8px;border-radius:6px;background:#e8f5e9;color:#2e7d32;">'
+                f'<span style="display:inline-block;margin-left:10px;font-size:12px;'
+                f'padding:3px 10px;border-radius:6px;background:#e8f0ea;color:#2d5a3d;">'
                 f'stable — P{i} = P{i-1}</span>'
             )
         else:
             stable_badge = ""
 
         html += f"""
-        <div style="display:flex;align-items:flex-start;gap:14px;padding:10px 0;{border}">
-          <span style="font-family:ui-monospace,monospace;font-size:13px;font-weight:500;color:#888;min-width:30px;padding-top:2px;">P{i}</span>
-          <span style="font-family:ui-monospace,monospace;font-size:14px;flex:1;">{groups}{stable_badge}</span>
+        <div style="display:flex;align-items:flex-start;gap:16px;padding:12px 0;{border}">
+          <span style="font-family:ui-monospace,monospace;font-size:14px;font-weight:600;color:#8a7a84;min-width:34px;padding-top:2px;">P{i}</span>
+          <span style="font-family:ui-monospace,monospace;font-size:15px;flex:1;color:#2a2328;">{groups}{stable_badge}</span>
         </div>"""
 
     html += "</div>"
 
     if merged > 0:
-        html += f'<p style="font-size:13px;color:#888;">{merged} state{"s" if merged > 1 else ""} merged — equivalent under bisimulation.</p>'
+        html += f'<p style="font-size:15px;color:#6e5c67;line-height:1.5;">{merged} state{"s" if merged > 1 else ""} merged — equivalent under bisimulation.</p>'
     else:
-        html += '<p style="font-size:13px;color:#888;">DFA is already minimal — no states can be merged.</p>'
+        html += '<p style="font-size:15px;color:#6e5c67;line-height:1.5;">DFA is already minimal — no states can be merged.</p>'
 
     return html
 
@@ -166,6 +166,6 @@ def minimize(
 
     except Exception as e:
         return (
-            f'<div style="background:#fef2f2;border:0.5px solid #fca5a5;border-radius:8px;'
-            f'padding:12px 16px;font-size:14px;color:#991b1b;">Error: {str(e)}</div>'
+            f'<div style="background:#fdf2f4;border:1px solid #e8b4bc;border-radius:10px;'
+            f'padding:14px 18px;font-size:15px;color:#8b2c3a;line-height:1.5;">Error: {str(e)}</div>'
         )
