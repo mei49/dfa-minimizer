@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
-from mangum import Mangum
 
 app = FastAPI()
 
@@ -262,7 +261,3 @@ def minimize(
             f'<div style="background:#fef2f2;border:0.5px solid #fca5a5;border-radius:8px;'
             f'padding:12px 16px;font-size:14px;color:#991b1b;">Error: {str(e)}</div>'
         )
-
-
-# Vercel serverless handler
-handler = Mangum(app)
