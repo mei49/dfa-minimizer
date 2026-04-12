@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/minimize", "destination": "/api/index" },
+    { "source": "/", "destination": "/api/index" }
+  ]
+}
