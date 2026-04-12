@@ -1,27 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DFA Minimizer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DFA Minimizer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f5f3;
+      color: #1a1a18;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      color: #1a1a18;
+    }
+
+    .card {
+      background: #fff;
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .field { margin-bottom: 12px; }
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 0.5px solid rgba(0,0,0,0.2);
+      border-radius: 8px;
+      outline: none;
+      background: #fff;
+      color: #1a1a18;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus {
+      border-color: rgba(0,0,0,0.45);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    code {
+      font-family: ui-monospace, monospace;
+      background: #f5f5f3;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    button[type="submit"] {
+      margin-top: 1.25rem;
+      padding: 9px 22px;
+      font-size: 14px;
+      font-weight: 500;
+      background: #1a1a18;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    button[type="submit"]:hover { opacity: 0.85; }
+    button[type="submit"]:active { opacity: 0.7; }
+
+    /* Result area */
+    #result h3 { font-size: 15px; font-weight: 500; margin-bottom: 1rem; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .metric {
+      background: #f5f5f3;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 3px;
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .steps-table { width: 100%; }
+
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    }
+
+    .step-row:last-child { border-bottom: none; }
+
+    .step-label {
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: #888;
+      min-width: 30px;
+      padding-top: 2px;
+    }
+
+    .step-groups {
+      font-family: ui-monospace, monospace;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 11px;
+      font-family: system-ui, sans-serif;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      vertical-align: middle;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    .error {
+      background: #fef2f2;
+      border: 0.5px solid #fca5a5;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #991b1b;
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <h1>DFA minimizer</h1>
 
-<h2>DFA Minimizer</h2>
+  <div class="card">
+    <form action="/minimize" method="post" id="dfa-form">
+      <div class="grid-2">
+        <div class="field">
+          <label for="states">States</label>
+          <input type="text" id="states" name="states" placeholder="A, B, C" />
+        </div>
+        <div class="field">
+          <label for="alphabet">Alphabet</label>
+          <input type="text" id="alphabet" name="alphabet" placeholder="0, 1" />
+        </div>
+      </div>
 
-<form action="/minimize" method="post">
-    <label>States:</label><br>
-    <input name="states"><br><br>
+      <div class="field">
+        <label for="final">Final states</label>
+        <input type="text" id="final" name="final" placeholder="C" />
+      </div>
 
-    <label>Alphabet:</label><br>
-    <input name="alphabet"><br><br>
+      <div class="field">
+        <label for="transitions">Transitions</label>
+        <input type="text" id="transitions" name="transitions"
+               placeholder="(A,0)->B, (A,1)->C, (B,0)->B, …" />
+        <p class="hint">Format: <code>(state,symbol)->dest</code> separated by commas</p>
+      </div>
 
-    <label>Final States:</label><br>
-    <input name="final"><br><br>
+      <button type="submit">Minimize →</button>
+    </form>
+  </div>
 
-    <label>Transitions:</label><br>
-    <input name="transitions" size="60"><br><br>
+  <div id="result"></div>
+</div>
 
-    <button type="submit">Minimize</button>
-</form>
-
+<script>
+document.getElementById('dfa-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const body = new URLSearchParams(new FormData(form));
+  const res = await fetch('/minimize', { method: 'POST', body });
+  const html = await res.text();
+  document.getElementById('result').innerHTML = html;
+});
+</script>
 </body>
 </html>
