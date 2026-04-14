@@ -1,20 +1,20 @@
 # DFA Minimizer Visualizer
 
-### 🔗 Live Demo:
+###  Live Demo:
 
 https://dfa-minimizer-six.vercel.app/
 
----
 
-## 📌 Overview
+
+##  Overview
 
 A browser-based tool to **visualize and minimize Deterministic Finite Automata (DFA)**.
 
 This project allows users to input a DFA, perform minimization using standard algorithms, and visually understand how equivalent states are merged to produce an optimized DFA.
 
----
 
-## 🚀 Features
+
+##  Features
 
 * Input custom DFA (states, alphabet, transitions)
 * Automatic DFA minimization
@@ -23,9 +23,9 @@ This project allows users to input a DFA, perform minimization using standard al
 * Handles unreachable and equivalent states
 * Clean and interactive UI
 
----
 
-## 🧩 Project Structure
+
+##  Project Structure
 
 ```
 .
@@ -37,9 +37,9 @@ This project allows users to input a DFA, perform minimization using standard al
 ├── vercel.json       # Deployment configuration
 ```
 
----
 
-## ▶️ Usage
+
+##  Usage
 
 1. Open the live demo link
 2. Enter:
@@ -55,27 +55,27 @@ This project allows users to input a DFA, perform minimization using standard al
    * Intermediate steps
    * Final minimized DFA
 
----
 
-## ⚙️ How It Works
+
+##  How It Works
 
 * Removes unreachable states
 * Groups equivalent states
 * Applies partitioning algorithm
 * Generates minimized DFA
 
----
 
-## 💡 Notes
+
+##  Notes
 
 * Input format must be correct for accurate results
 * DFA should be deterministic (no multiple transitions for same input)
 * Useful for understanding automata theory concepts
 * Designed for educational purposes
 
----
 
-## 🛠️ Run Locally
+
+##  Run Locally
 
 1. Clone the repository
 2. Install dependencies:
@@ -90,16 +90,12 @@ This project allows users to input a DFA, perform minimization using standard al
    ```
 4. Open `index.html` in browser
 
----
 
-## 📚 Technologies Used
+
+##  Technologies Used
 
 * HTML, CSS, JavaScript
 * Python (for backend logic)
 * Vercel (for deployment)
 
----
 
-## 👩‍💻 Author
-
-Sneha
